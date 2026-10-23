@@ -169,8 +169,7 @@ const skillCategories = [
       { name: "Firebase", level: "Practical" },
       { name: "Git", level: "Practical" },
       { name: "GitHub", level: "Practical" },
-      { name: "Vite", level: "Practical" },
-      { name: "Postman", level: "Practical" }
+      { name: "Vite", level: "Practical" }
     ]
   },
   {
