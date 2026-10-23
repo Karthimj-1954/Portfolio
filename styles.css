@@ -590,51 +590,6 @@ body {
   }
 }
 
-/* Technical HUD Reticle / Annotations */
-.character-hud-ambient {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.hud-geo-tag {
-  position: absolute;
-  top: 3%;
-  left: 0%;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  color: var(--primary-orange);
-  opacity: 0.9;
-  letter-spacing: 0.1em;
-  background: rgba(17, 17, 17, 0.88);
-  backdrop-filter: blur(8px);
-  padding: 5px 12px;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 90, 31, 0.3);
-  border-left: 2px solid var(--primary-orange);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
-  white-space: nowrap;
-}
-
-.hud-sys-tag {
-  position: absolute;
-  bottom: 4%;
-  left: 0%;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  color: var(--secondary-text);
-  letter-spacing: 0.1em;
-  opacity: 0.8;
-  background: rgba(17, 17, 17, 0.82);
-  backdrop-filter: blur(8px);
-  padding: 5px 12px;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
-  white-space: nowrap;
-}
-
 /* Canvas & Character Render Surface */
 .character-canvas-layer {
   position: relative;

@@ -21,7 +21,7 @@ A production-quality developer portfolio website built for **Karthik Mohan J (KJ
 - **Primary Highlight**: `#FF5A1F` (Vivid Neon Orange)
 - **Secondary Highlight**: `#FF7A24`
 - **Typography**: Inter (modern geometric sans-serif) & JetBrains Mono (monospace)
-- **HUD Micro-Annotations**: Coordinate tags (`LAT 8.5241° N`), glowing circular character ring, and floating code snippets
+- **HUD Accents**: Glowing circular character halo ring and floating technical code card
 - **Responsiveness**: Fully responsive across Desktop, Tablet, and Mobile with zero horizontal overflow
 
 ---
