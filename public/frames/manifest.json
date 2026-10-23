@@ -1,0 +1,9 @@
+{
+  "sourceVideo": "public/character.mp4",
+  "hasNeutral": true,
+  "neutralFrame": "center.webp",
+  "totalFrames": 0,
+  "frameFiles": [],
+  "status": "awaiting_video_generation",
+  "instructions": "Place character.mp4 into public/ and run python scripts/extract-character-frames.py to populate 64 directional frames."
+}
