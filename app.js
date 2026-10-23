@@ -134,6 +134,7 @@ function initCursorTrackingCharacter() {
     if (canvas.width !== displayWidth * dpr || canvas.height !== displayHeight * dpr) {
       canvas.width = displayWidth * dpr;
       canvas.height = displayHeight * dpr;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
     }
   }
@@ -261,13 +262,8 @@ function initCursorTrackingCharacter() {
         const activeFrame = directionalFrames[frameIndex] || centerFrame;
         drawContainedImage(ctx, activeFrame, width, height);
       } else {
-        // Neutral center pose (direct eye contact)
-        // Add subtle interactive depth offset based on pointer position for dynamic life
-        const maxOffset = 6;
-        const offsetX = (dx / (window.innerWidth / 2)) * maxOffset;
-        const offsetY = (dy / (window.innerHeight / 2)) * maxOffset;
-
-        drawContainedImage(ctx, centerFrame, width, height, offsetX, offsetY);
+        // Neutral center pose (direct eye contact) - fixed and properly aligned
+        drawContainedImage(ctx, centerFrame, width, height, 0, 0);
       }
     }
 
