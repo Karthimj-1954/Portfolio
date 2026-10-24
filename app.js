@@ -444,8 +444,157 @@ function renderSkills(skillCategories) {
 }
 
 /* ==========================================================================
-   7. RENDER FEATURED PROJECTS (3-Column Grid + Flagship MetricFit)
+   7. RENDER FEATURED PROJECTS (3-Column Grid + Flagship MetricFit + Live Previews)
    ========================================================================== */
+
+function isValidHttpUrl(string) {
+  if (!string || typeof string !== 'string') return false;
+  try {
+    const url = new URL(string);
+    return url.protocol === 'http:' || url.protocol === 'https:';
+  } catch (_) {
+    return false;
+  }
+}
+
+function getDisplayHostname(url) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch (_) {
+    return 'live-demo';
+  }
+}
+
+function renderProjectPreview(p) {
+  const isMetricFit = p.id === 'metricfit';
+  const hasLiveUrl = isValidHttpUrl(p.liveUrl);
+
+  if (hasLiveUrl) {
+    const hostname = getDisplayHostname(p.liveUrl);
+    return `
+      <div class="project-thumbnail-wrapper has-live-preview" data-live-url="${p.liveUrl}" data-project-id="${p.id}">
+        <!-- Browser Window Header -->
+        <div class="preview-browser-bar">
+          <div class="preview-traffic-dots" aria-hidden="true">
+            <span class="preview-dot dot-close"></span>
+            <span class="preview-dot dot-min"></span>
+            <span class="preview-dot dot-max"></span>
+          </div>
+
+          <a href="${p.liveUrl}" target="_blank" rel="noopener noreferrer" class="preview-url-bar" title="Open ${p.liveUrl} in new tab">
+            <i data-lucide="lock" class="preview-lock-icon"></i>
+            <span class="preview-url-domain">${hostname}</span>
+          </a>
+
+          <div class="preview-browser-controls">
+            <button type="button" class="preview-control-btn preview-interact-toggle" title="Toggle interactive preview mode" aria-label="Toggle interaction for ${p.title}">
+              <i data-lucide="mouse-pointer" style="width: 10px; height: 10px;"></i>
+              <span class="interact-label">Interact</span>
+            </button>
+            <span class="preview-status-pill" title="Live Deployment Active">
+              <span class="preview-live-dot"></span>
+              <span class="preview-live-text">LIVE</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Live Iframe Viewport -->
+        <div class="preview-frame-container">
+          <!-- Loading skeleton state -->
+          <div class="preview-skeleton">
+            <div class="preview-spinner"></div>
+            <span class="preview-status-note">Connecting to ${hostname}...</span>
+          </div>
+
+          <!-- Embedded Website -->
+          <iframe
+            data-src="${p.liveUrl}"
+            title="${p.title} Live Website Preview"
+            class="project-live-frame"
+            loading="lazy"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+            tabindex="-1"
+            aria-label="Live deployed website preview of ${p.title}"
+          ></iframe>
+
+          <!-- Fallback view if embedding blocked by host -->
+          <div class="preview-fallback-view" style="display: none;">
+            <div class="fallback-content">
+              <div class="tech-wireframe-mockup in-fallback">
+                <div class="wireframe-top">
+                  <div class="wf-dot"></div>
+                  <div class="wf-dot"></div>
+                  <div class="wf-dot"></div>
+                  <span style="margin-left: auto; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--secondary-text);">
+                    ${p.metrics || p.categoryLabel}
+                  </span>
+                </div>
+                <div class="wireframe-content">
+                  <div class="wf-line accent" style="width: 60%;"></div>
+                  <div class="wf-line medium"></div>
+                  <div class="wf-line short"></div>
+                </div>
+              </div>
+              <div class="fallback-note-wrap">
+                <p class="fallback-sub">Preview protected by host security policy.</p>
+                <a href="${p.liveUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm fallback-btn">
+                  <span>Open Live Demo</span>
+                  <i data-lucide="external-link" style="width: 12px; height: 12px;"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Non-interfering Click Shield (Prevents scroll trapping, click to open live site) -->
+          <div class="preview-hover-shield" title="Click to open live site in new tab" role="button" tabindex="0" aria-label="Open ${p.title} live demo in new tab">
+            <div class="preview-badge-action">
+              <span>Open Live Website</span>
+              <i data-lucide="external-link" style="width: 12px; height: 12px;"></i>
+            </div>
+          </div>
+
+          <!-- Delayed Timeout Notice (if slow or blocked) -->
+          <div class="preview-timeout-banner" style="display: none;">
+            <span>Taking longer to load?</span>
+            <a href="${p.liveUrl}" target="_blank" rel="noopener noreferrer">Launch Demo ↗</a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // Fallback 1: Project with real image (MetricFit flagship)
+  if (p.image) {
+    return `
+      <div class="project-thumbnail-wrapper">
+        <img src="${p.image}" alt="${p.title}" class="project-real-img" loading="lazy" />
+        <div class="project-img-overlay"></div>
+      </div>
+    `;
+  }
+
+  // Fallback 2: Project with technical wireframe mockup
+  return `
+    <div class="project-thumbnail-wrapper">
+      <div class="tech-wireframe-mockup">
+        <div class="wireframe-top">
+          <div class="wf-dot"></div>
+          <div class="wf-dot"></div>
+          <div class="wf-dot"></div>
+          <span style="margin-left: auto; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--secondary-text);">
+            ${p.metrics || p.categoryLabel}
+          </span>
+        </div>
+        <div class="wireframe-content">
+          <div class="wf-line accent" style="width: 50%;"></div>
+          <div class="wf-line medium"></div>
+          <div class="wf-line short"></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function renderProjects(filterCategory = 'all', projectsList) {
   const container = document.getElementById('projects-container');
   if (!container || !projectsList) return;
@@ -459,28 +608,7 @@ function renderProjects(filterCategory = 'all', projectsList) {
 
     return `
       <div class="project-card ${isMetricFit ? 'flagship-card' : ''}" data-project-id="${p.id}">
-        <div class="project-thumbnail-wrapper">
-          ${p.image ? `
-            <img src="${p.image}" alt="${p.title}" class="project-real-img" />
-            <div class="project-img-overlay"></div>
-          ` : `
-            <div class="tech-wireframe-mockup">
-              <div class="wireframe-top">
-                <div class="wf-dot"></div>
-                <div class="wf-dot"></div>
-                <div class="wf-dot"></div>
-                <span style="margin-left: auto; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--secondary-text);">
-                  ${p.metrics || p.categoryLabel}
-                </span>
-              </div>
-              <div class="wireframe-content">
-                <div class="wf-line accent" style="width: 50%;"></div>
-                <div class="wf-line medium"></div>
-                <div class="wf-line short"></div>
-              </div>
-            </div>
-          `}
-        </div>
+        ${renderProjectPreview(p)}
 
         <div class="project-card-body">
           <div class="project-meta-row">
@@ -529,6 +657,116 @@ function renderProjects(filterCategory = 'all', projectsList) {
 
   initLucideIcons();
   attachProjectModalTriggers(projectsList);
+  initProjectLivePreviews();
+}
+
+function initProjectLivePreviews() {
+  const wrappers = document.querySelectorAll('.project-thumbnail-wrapper.has-live-preview');
+  if (!wrappers.length) return;
+
+  if (window._projectPreviewObserver) {
+    window._projectPreviewObserver.disconnect();
+  }
+
+  // Lazy loading observer for high performance
+  const observerOptions = {
+    root: null,
+    rootMargin: '250px 0px',
+    threshold: 0.01
+  };
+
+  window._projectPreviewObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const wrapper = entry.target;
+        const iframe = wrapper.querySelector('.project-live-frame');
+        const skeleton = wrapper.querySelector('.preview-skeleton');
+        const fallback = wrapper.querySelector('.preview-fallback-view');
+        const timeoutBanner = wrapper.querySelector('.preview-timeout-banner');
+
+        if (iframe && iframe.dataset.src && !iframe.src) {
+          iframe.src = iframe.dataset.src;
+
+          // Timeout check for slow loading or silent host frame blocking
+          const loadTimeout = setTimeout(() => {
+            if (!wrapper.classList.contains('iframe-loaded') && !wrapper.classList.contains('iframe-failed')) {
+              if (timeoutBanner) timeoutBanner.style.display = 'flex';
+            }
+          }, 7000);
+
+          iframe.addEventListener('load', () => {
+            clearTimeout(loadTimeout);
+            wrapper.classList.add('iframe-loaded');
+            if (skeleton) {
+              skeleton.style.opacity = '0';
+              setTimeout(() => { skeleton.style.display = 'none'; }, 250);
+            }
+            if (timeoutBanner) {
+              timeoutBanner.style.display = 'none';
+            }
+          });
+
+          iframe.addEventListener('error', () => {
+            clearTimeout(loadTimeout);
+            wrapper.classList.add('iframe-failed');
+            if (skeleton) skeleton.style.display = 'none';
+            if (fallback) fallback.style.display = 'flex';
+          });
+        }
+        observer.unobserve(wrapper);
+      }
+    });
+  }, observerOptions);
+
+  wrappers.forEach(wrap => {
+    window._projectPreviewObserver.observe(wrap);
+
+    const shield = wrap.querySelector('.preview-hover-shield');
+    const liveUrl = wrap.getAttribute('data-live-url');
+
+    if (shield && liveUrl) {
+      shield.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.open(liveUrl, '_blank', 'noopener,noreferrer');
+      });
+
+      shield.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          e.stopPropagation();
+          window.open(liveUrl, '_blank', 'noopener,noreferrer');
+        }
+      });
+    }
+
+    const interactBtn = wrap.querySelector('.preview-interact-toggle');
+    const frameWrap = wrap.querySelector('.preview-frame-container');
+    if (interactBtn && frameWrap) {
+      interactBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isInteractive = frameWrap.classList.toggle('interactive-mode');
+        const label = interactBtn.querySelector('.interact-label');
+        if (isInteractive) {
+          interactBtn.classList.add('active');
+          if (label) label.textContent = 'Exit';
+          interactBtn.title = 'Exit interactive mode (restores smooth scroll)';
+        } else {
+          interactBtn.classList.remove('active');
+          if (label) label.textContent = 'Interact';
+          interactBtn.title = 'Toggle interactive preview mode';
+        }
+      });
+
+      wrap.addEventListener('mouseleave', () => {
+        if (frameWrap.classList.contains('interactive-mode')) {
+          frameWrap.classList.remove('interactive-mode');
+          interactBtn.classList.remove('active');
+          const label = interactBtn.querySelector('.interact-label');
+          if (label) label.textContent = 'Interact';
+        }
+      });
+    }
+  });
 }
 
 function initProjectFilters(projectsList) {

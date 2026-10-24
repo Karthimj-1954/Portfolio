@@ -373,20 +373,73 @@
 
           <!-- Project 2: Sports Finder Hub -->
           <div class="project-card" data-project-id="sports-finder-hub">
-            <div class="project-thumbnail-wrapper">
-              <div class="tech-wireframe-mockup">
-                <div class="wireframe-top">
-                  <div class="wf-dot"></div>
-                  <div class="wf-dot"></div>
-                  <div class="wf-dot"></div>
-                  <span style="margin-left: auto; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--secondary-text);">
-                    Live on Vercel • Geospatial Leaflet Map
+            <div class="project-thumbnail-wrapper has-live-preview" data-live-url="https://sports-finder-hub.vercel.app" data-project-id="sports-finder-hub">
+              <div class="preview-browser-bar">
+                <div class="preview-traffic-dots" aria-hidden="true">
+                  <span class="preview-dot dot-close"></span>
+                  <span class="preview-dot dot-min"></span>
+                  <span class="preview-dot dot-max"></span>
+                </div>
+                <a href="https://sports-finder-hub.vercel.app" target="_blank" rel="noopener noreferrer" class="preview-url-bar" title="Open https://sports-finder-hub.vercel.app in new tab">
+                  <i data-lucide="lock" class="preview-lock-icon"></i>
+                  <span class="preview-url-domain">sports-finder-hub.vercel.app</span>
+                </a>
+                <div class="preview-browser-controls">
+                  <button type="button" class="preview-control-btn preview-interact-toggle" title="Toggle interactive preview mode" aria-label="Toggle interaction for Sports Finder Hub">
+                    <i data-lucide="mouse-pointer" style="width: 10px; height: 10px;"></i>
+                    <span class="interact-label">Interact</span>
+                  </button>
+                  <span class="preview-status-pill" title="Live Deployment Active">
+                    <span class="preview-live-dot"></span>
+                    <span class="preview-live-text">LIVE</span>
                   </span>
                 </div>
-                <div class="wireframe-content">
-                  <div class="wf-line accent" style="width: 55%;"></div>
-                  <div class="wf-line medium"></div>
-                  <div class="wf-line short"></div>
+              </div>
+              <div class="preview-frame-container">
+                <div class="preview-skeleton">
+                  <div class="preview-spinner"></div>
+                  <span class="preview-status-note">Connecting to sports-finder-hub.vercel.app...</span>
+                </div>
+                <iframe
+                  data-src="https://sports-finder-hub.vercel.app"
+                  title="Sports Finder Hub — Local Game Community Live Website Preview"
+                  class="project-live-frame"
+                  loading="lazy"
+                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                  tabindex="-1"
+                  aria-label="Live deployed website preview of Sports Finder Hub"
+                ></iframe>
+                <div class="preview-fallback-view" style="display: none;">
+                  <div class="fallback-content">
+                    <div class="tech-wireframe-mockup in-fallback">
+                      <div class="wireframe-top">
+                        <div class="wf-dot"></div>
+                        <div class="wf-dot"></div>
+                        <div class="wf-dot"></div>
+                        <span style="margin-left: auto; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--secondary-text);">
+                          Live on Vercel • Geospatial Leaflet Map
+                        </span>
+                      </div>
+                      <div class="wireframe-content">
+                        <div class="wf-line accent" style="width: 60%;"></div>
+                        <div class="wf-line medium"></div>
+                        <div class="wf-line short"></div>
+                      </div>
+                    </div>
+                    <div class="fallback-note-wrap">
+                      <p class="fallback-sub">Preview protected by host security policy.</p>
+                      <a href="https://sports-finder-hub.vercel.app" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm fallback-btn">
+                        <span>Open Live Demo</span>
+                        <i data-lucide="external-link" style="width: 12px; height: 12px;"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="preview-hover-shield" title="Click to open live site in new tab" role="button" tabindex="0" aria-label="Open Sports Finder Hub live demo in new tab">
+                  <div class="preview-badge-action">
+                    <span>Open Live Website</span>
+                    <i data-lucide="external-link" style="width: 12px; height: 12px;"></i>
+                  </div>
                 </div>
               </div>
             </div>
